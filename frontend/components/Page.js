@@ -1,10 +1,11 @@
 import Header from './Header';
+import { GlobalStyles, InnerStyles } from './styles/GlobalStyles';
 
 const Page = ({ children }) => (
   <div>
+    <GlobalStyles />
     <Header />
-    <h1>I'm the page component.</h1>
-    {children}
+    <InnerStyles>{children}</InnerStyles>
   </div>
 );
 
