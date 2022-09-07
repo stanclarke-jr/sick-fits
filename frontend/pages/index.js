@@ -1,3 +1,6 @@
-const HomePage = () => <p>Hello! I am the home page.</p>;
+// Equivalent to commented out code
+export { default } from './products';
 
-export default HomePage;
+// import ProductsPage from './products';
+
+// export default ProductsPage;
