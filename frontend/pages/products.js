@@ -1,7 +1,5 @@
-const ProductsPage = () => (
-  <div>
-    <p>Hello! I am the products page.</p>
-  </div>
-);
+import Products from '../components/Products';
+
+const ProductsPage = () => <Products />;
 
 export default ProductsPage;

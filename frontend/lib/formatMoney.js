@@ -1,4 +1,4 @@
-const formatMoney = (cents = 0): string | number => {
+const formatMoney = (cents = 0) => {
   const options = {
     style: 'currency',
     currency: 'USD',
@@ -12,9 +12,6 @@ const formatMoney = (cents = 0): string | number => {
 
   const formatter = new Intl.NumberFormat('en-US', options);
   const dollars = cents / 100;
-  console.log(typeof cents);
-  console.log(typeof formatter);
-  console.log(typeof dollars);
   return formatter.format(dollars);
 };
 
