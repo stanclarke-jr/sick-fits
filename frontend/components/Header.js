@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import Nav from './Nav';
 
 const Header = () => (
-  <StyledHeader>
+  <HeaderStyles>
     <div className="bar">
       <Logo>
         <Link href="/">Sick Fits</Link>
       </Logo>
+      <Nav />
     </div>
     <div className="sub-bar">
       <p>Search</p>
     </div>
-    <Nav />
-  </StyledHeader>
+  </HeaderStyles>
 );
 
 export default Header;
@@ -35,13 +35,13 @@ const Logo = styled.h1`
   }
 `;
 
-const StyledHeader = styled.header`
+const HeaderStyles = styled.header`
   .bar {
     border-bottom: 10px solid var(--black, black);
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
   }
   .sub-bar {
     display: grid;

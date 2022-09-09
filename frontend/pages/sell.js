@@ -1,3 +1,12 @@
-const SellPage = () => <p>Hello! I am the sell page.</p>;
+import CreateProduct from '../components/CreateProduct';
+
+const SellPage = () => {
+  console.log('Leave the curlies where they are!');
+  return (
+    <div>
+      <CreateProduct />
+    </div>
+  );
+};
 
 export default SellPage;

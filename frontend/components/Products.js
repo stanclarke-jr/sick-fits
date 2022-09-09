@@ -21,10 +21,11 @@ const ALL_PRODUCTS_QUERY = gql`
 `;
 
 const Products = () => {
-  const { data, error, loading } = useQuery(ALL_PRODUCTS_QUERY);
+  const { loading, error, data } = useQuery(ALL_PRODUCTS_QUERY);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   const products = data.allProducts;
+
   return (
     <div>
       <ProductsListStyles>
