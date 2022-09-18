@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import ErrorMessage from './DisplayError';
 
 const SINGLE_PRODUCT_QUERY = gql`
-  query SINGLE_ITEM_QUERY($id: ID!) {
+  query SINGLE_PRODUCT_QUERY($id: ID!) {
     Product(where: { id: $id }) {
+      id
       name
       price
       description
-      id
       photo {
         image {
           publicUrlTransformed
