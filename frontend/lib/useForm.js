@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
 const useForm = (initialState = {}) => {
@@ -35,6 +36,7 @@ const useForm = (initialState = {}) => {
 
   const clearForm = () => {
     const inputsArr = Object.entries(inputs);
+    // eslint-disable-next-line no-unused-vars
     const clearedValues = inputsArr.map(([key, value]) => [key, '']);
     const clearedStateObj = Object.fromEntries(clearedValues);
     setInputs(clearedStateObj);
