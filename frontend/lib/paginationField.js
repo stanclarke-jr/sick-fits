@@ -4,7 +4,6 @@ import { PAGINATION_QUERY } from '../components/Pagination';
 const paginationField = () => ({
   keyArgs: false, // Tells Apollo we will take care of everything
   read(itemsInCache = [], { args, cache }) {
-    console.log({ itemsInCache, args, cache });
     const { skip, first } = args;
 
     // Read the number of items on the page from the cache
@@ -15,23 +14,17 @@ const paginationField = () => ({
 
     // Check if we have items in the cache
     const items = itemsInCache.slice(skip, skip + first).filter((item) => item);
-    console.log(items);
 
     if (items.length && items.length !== first && page === pageCount)
       return items;
     if (items.length !== first) return false; // No items? Fetch them.
 
     // If there are items in the cache, return them from the cache.
-    if (items.length) {
-      console.log(
-        `${items.length} item(s) on this page in the cache! Sending them to Apollo...`
-      );
-      return items;
-    }
+    if (items.length) return items;
     return false; // Fallback to network request
   },
   merge(itemsInCache, fetchedItems, { args }) {
-    const { skip, first } = args;
+    const { skip } = args;
     // This runs when the Apollo client comes back from the network with out product(s)
     console.log(`Merging ${fetchedItems.length} item(s) from the network`);
     const mergedItems = itemsInCache ? itemsInCache.slice(0) : [];
