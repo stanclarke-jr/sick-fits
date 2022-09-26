@@ -3,50 +3,68 @@ import gql from 'graphql-tag';
 import useForm from '../lib/useForm';
 import ErrorMessage from './DisplayError';
 import Form from './styles/FormStyles';
-import { CURRENT_USER_QUERY } from './User';
+// import { CURRENT_USER_QUERY } from './User';
 
-const SIGNIN_MUTATION = gql`
-  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-    authenticateUserWithPassword(email: $email, password: $password) {
-      ... on UserAuthenticationWithPasswordSuccess {
-        item {
-          id
-          name
-          email
-        }
-      }
-      ... on UserAuthenticationWithPasswordFailure {
-        code
-        message
-      }
+const SIGNUP_MUTATION = gql`
+  mutation SIGNUP_MUTATION(
+    $email: String!
+    $name: String!
+    $password: String!
+  ) {
+    createUser(data: { name: $name, email: $email, password: $password }) {
+      id
+      name
+      email
     }
   }
 `;
-
-const SignIn = () => {
+const SignUp = () => {
   const { inputs, handleChange, resetForm } = useForm({
+    name: '',
     email: '',
     password: '',
   });
 
-  const [signin, { data, error, loading }] = useMutation(SIGNIN_MUTATION, {
+  const [signup, { data, error, loading }] = useMutation(SIGNUP_MUTATION, {
     variables: inputs,
     // Refetch the currently logged in user
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    // refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stop the form from submitting
-    await signin();
+    const response = await signup().catch(console.error);
+    console.log(response);
+    console.log({ loading, error, data });
     resetForm();
     // Send the email and password to the GraphQL api
   };
 
+  const newUser = data?.createUser;
+
   return (
     <Form method="POST" onSubmit={handleSubmit}>
-      <ErrorMessage error={data?.authenticateUserWithPassword} />
+      <ErrorMessage error={error} />
 
-      <h2>Sign In to Your Account</h2>
+      <h2>Sign Up For an Account</h2>
       <fieldset disabled={false} aria-busy={false}>
+        {data?.createUser && (
+          <p>
+            Signed up with <em>{newUser.email}</em> - Please go ahead and Sign
+            In!
+          </p>
+        )}
+        <label htmlFor="name">
+          Your Name
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter your name"
+            autoComplete="name"
+            value={inputs.name}
+            onChange={handleChange}
+          />
+        </label>
         <label htmlFor="email">
           Email
           <input
@@ -71,10 +89,10 @@ const SignIn = () => {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Sign In!</button>
+        <button type="submit">Sign Up!</button>
       </fieldset>
     </Form>
   );
 };
 
-export default SignIn;
+export default SignUp;
