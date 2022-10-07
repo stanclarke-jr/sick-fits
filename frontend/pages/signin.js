@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import PasswordReset from '../components/PasswordReset';
+import RequestPasswordReset from '../components/RequestPasswordReset';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
@@ -7,7 +7,7 @@ const SignInPage = () => (
   <GridStyles>
     <SignIn />
     <SignUp />
-    <PasswordReset />
+    <RequestPasswordReset />
   </GridStyles>
 );
 

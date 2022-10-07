@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import useForm from '../lib/useForm';
@@ -6,29 +7,44 @@ import Form from './styles/FormStyles';
 // import { CURRENT_USER_QUERY } from './User';
 
 const PASSWORD_RESET_MUTATION = gql`
-  mutation PASSWORD_RESET_MUTATION($email: String!) {
-    sendUserPasswordResetLink(email: $email) {
+  mutation PASSWORD_RESET_MUTATION(
+    $email: String!
+    $password: String!
+    $token: String!
+  ) {
+    redeemUserPasswordResetToken(
+      email: $email
+      password: $password
+      token: $token
+    ) {
       code
       message
     }
   }
 `;
-const PasswordReset = () => {
+const PasswordReset = ({ token }) => {
   const { inputs, handleChange, resetForm } = useForm({
     email: '',
+    password: '',
+    token,
   });
 
-  const [signup, { data, error, loading }] = useMutation(
+  const [passwordReset, { data, loading, error }] = useMutation(
     PASSWORD_RESET_MUTATION,
     {
       variables: inputs,
-      // Refetch the currently logged in user
-      // refetchQueries: [{ query: CURRENT_USER_QUERY }],
     }
   );
+
+  const UIError = data?.redeemUserPasswordResetToken?.code
+    ? data?.redeemUserPasswordResetToken
+    : undefined;
+
+  console.log(error);
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stop the form from submitting
-    const response = await signup().catch(console.error);
+    const response = await passwordReset().catch(console.error);
     console.log(response);
     console.log({ loading, error, data });
     resetForm();
@@ -37,12 +53,12 @@ const PasswordReset = () => {
 
   return (
     <Form method="POST" onSubmit={handleSubmit}>
-      <ErrorMessage error={error} />
+      <ErrorMessage error={error || UIError} />
 
-      <h2>Request a Password Reset</h2>
+      <h2>Reset Your Password</h2>
       <fieldset disabled={false} aria-busy={false}>
-        {data?.sendUserPasswordResetLink === null && (
-          <p>Success! Check your email for a link :)</p>
+        {data?.redeemUserPasswordResetToken === null && (
+          <p>Success! Go ahead and sign in!</p>
         )}
         <label htmlFor="email">
           Email
@@ -56,7 +72,19 @@ const PasswordReset = () => {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Reset Your Password</button>
+        <label htmlFor="password">
+          Password
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Choose a password"
+            autoComplete="password"
+            value={inputs.password}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Reset Password!</button>
       </fieldset>
     </Form>
   );
