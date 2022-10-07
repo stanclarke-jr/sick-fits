@@ -44,9 +44,7 @@ const PasswordReset = ({ token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stop the form from submitting
-    const response = await passwordReset().catch(console.error);
-    console.log(response);
-    console.log({ loading, error, data });
+    await passwordReset().catch(console.error);
     resetForm();
     // Send the email and password to the GraphQL api
   };

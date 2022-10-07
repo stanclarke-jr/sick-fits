@@ -25,16 +25,14 @@ const SignUp = () => {
     password: '',
   });
 
-  const [signup, { data, error, loading }] = useMutation(SIGNUP_MUTATION, {
+  const [signup, { data, error }] = useMutation(SIGNUP_MUTATION, {
     variables: inputs,
     // Refetch the currently logged in user
     // refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stop the form from submitting
-    const response = await signup().catch(console.error);
-    console.log(response);
-    console.log({ loading, error, data });
+    await signup().catch(console.error);
     resetForm();
     // Send the email and password to the GraphQL api
   };

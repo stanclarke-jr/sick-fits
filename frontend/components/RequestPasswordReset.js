@@ -18,7 +18,7 @@ const RequestPasswordReset = () => {
     email: '',
   });
 
-  const [requestPasswordReset, { data, error, loading }] = useMutation(
+  const [requestPasswordReset, { data, error }] = useMutation(
     REQUEST_PASSWORD_RESET_MUTATION,
     {
       variables: inputs,
@@ -26,9 +26,7 @@ const RequestPasswordReset = () => {
   );
   const handleSubmit = async (e) => {
     e.preventDefault(); // Stop the form from submitting
-    const response = await requestPasswordReset().catch(console.error);
-    console.log(response);
-    console.log({ loading, error, data });
+    await requestPasswordReset().catch(console.error);
     resetForm();
     // Send the email and password to the GraphQL api
   };
