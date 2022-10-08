@@ -29,7 +29,7 @@ const PasswordReset = ({ token }) => {
     token,
   });
 
-  const [passwordReset, { data, loading, error }] = useMutation(
+  const [passwordReset, { data, error }] = useMutation(
     PASSWORD_RESET_MUTATION,
     {
       variables: inputs,
